@@ -25,7 +25,7 @@ def register_property_on_chain(
         private_key=settings.NOTARY_PRIVATE_KEY,
     )
 
-    tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+    tx_hash = w3.eth.send_raw_transaction(signed_tx.raw_transaction)
     receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
 
     return receipt.transactionHash.hex()

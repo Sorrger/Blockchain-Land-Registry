@@ -15,3 +15,6 @@ def get_user_by_wallet(db: Session, wallet: str) -> User | None:
 
 def get_user(db: Session, user_id: uuid.UUID):
     return db.query(User).filter(User.id == user_id).first()
+
+def get_users(db: Session) -> list[User]:
+    return db.query(User).all()

@@ -5,7 +5,13 @@ import uuid
 from app.database.deps import get_db
 from app.schemas.user import UserCreate, UserRead
 from app.models.user import User
-from app.crud.user import create_user, get_user_by_wallet, get_user
+from app.crud.user import (
+    create_user,
+    get_user_by_wallet,
+    get_user,
+    get_users,
+)
+
 
 router = APIRouter(
     prefix="/users",
@@ -13,7 +19,7 @@ router = APIRouter(
 )
 
 
-@router.post("/", response_model=UserRead, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=UserRead, status_code=status.HTTP_201_CREATED)
 def create_user_endpoint(
     payload: UserCreate,
     db: Session = Depends(get_db),
@@ -35,6 +41,12 @@ def create_user_endpoint(
     )
 
     return create_user(db, user)
+
+@router.get("", response_model=list[UserRead])
+def get_users_endpoint(
+    db: Session = Depends(get_db),
+):
+    return get_users(db)
 
 
 @router.get("/{user_id}", response_model=UserRead)

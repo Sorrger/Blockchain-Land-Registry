@@ -3,12 +3,19 @@ from urllib.parse import quote_plus
 
 
 class Settings(BaseSettings):
+    # DATABASE
     DB_HOST: str
     DB_PORT: int = 5432
     DB_NAME: str
     DB_USER: str
     DB_PASSWORD: str
+
+    # BLOCKCHAIN
+    CHAIN_RPC_URL: str
     CONTRACT_ADDRESS: str
+    NOTARY_PRIVATE_KEY: str
+    NOTARY_ADDRESS: str
+
     @property
     def DATABASE_URL(self) -> str:
         user = quote_plus(self.DB_USER)

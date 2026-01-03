@@ -1,11 +1,12 @@
 from fastapi import FastAPI
-
-from app.database.session import engine, Base
-from app.models import user, property, ownership
+from app.routers import users, properties, ownerships
 
 app = FastAPI()
 
-Base.metadata.create_all(bind=engine)
+app.include_router(users.router)
+app.include_router(properties.router)
+app.include_router(ownerships.router)
+
 
 @app.get("/health")
 def health():

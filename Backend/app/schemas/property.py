@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-
+import uuid
 
 class PropertyCreate(BaseModel):
     property_number: str
@@ -7,7 +7,7 @@ class PropertyCreate(BaseModel):
     area: float
 
 class PropertyResponse(PropertyCreate):
-    id: str
+    id: uuid.UUID  # <--- Change this from 'str' to 'uuid.UUID'
     token_id: int | None
     contract_address: str | None
     mint_tx_hash: str | None
@@ -15,7 +15,6 @@ class PropertyResponse(PropertyCreate):
     
     class Config:
         from_attributes = True
-
 
 class PropertyOnChainStatus(BaseModel):
     token_id: int | None

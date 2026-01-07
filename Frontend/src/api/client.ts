@@ -7,4 +7,11 @@ const api = axios.create({
   },
 });
 
+// Interceptor to add the Role header dynamically
+api.interceptors.request.use((config) => {
+  const role = localStorage.getItem('user_role') || 'user';
+  config.headers['x-role'] = role;
+  return config;
+});
+
 export default api;

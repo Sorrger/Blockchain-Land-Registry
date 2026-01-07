@@ -1,6 +1,7 @@
 from pydantic import BaseModel, field_validator
 from datetime import datetime
 from app.enums.txStatus import TxStatus
+import uuid
 
 class OwnershipCreate(BaseModel):
     property_id: str
@@ -21,13 +22,12 @@ class OwnerRead(BaseModel):
         from_attributes = True
 
 class OwnershipResponse(BaseModel):
-    id: str
-    property_id: str
-    owner: OwnerRead
+    id: uuid.UUID # <--- Change from 'str' to 'uuid.UUID'
+    property_id: uuid.UUID # <--- Change from 'str' to 'uuid.UUID'
+    # owner: OwnerRead # (If you are using nested models, ensure they match too)
     tx_hash: str
     tx_status: TxStatus
-    from_date: datetime
-    to_date: datetime | None
+    # ... other fields
 
     class Config:
         from_attributes = True

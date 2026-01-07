@@ -12,18 +12,17 @@ from app.crud.user import (
     get_users,
 )
 
-
 router = APIRouter(
     prefix="/users",
     tags=["users"]
 )
 
-
-@router.post("", response_model=UserRead, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=UserRead, status_code=status.HTTP_201_CREATED)
 def create_user_endpoint(
     payload: UserCreate,
     db: Session = Depends(get_db),
 ):
+    # 1. Validate if user already exists
     existing = get_user_by_wallet(db, payload.wallet_address)
     if existing:
         raise HTTPException(
@@ -31,6 +30,7 @@ def create_user_endpoint(
             detail="User with this wallet already exists",
         )
 
+    # 2. Create User Model
     user = User(
         id=uuid.uuid4(),
         first_name=payload.first_name,
@@ -42,12 +42,11 @@ def create_user_endpoint(
 
     return create_user(db, user)
 
-@router.get("", response_model=list[UserRead])
+@router.get("/", response_model=list[UserRead])
 def get_users_endpoint(
     db: Session = Depends(get_db),
 ):
     return get_users(db)
-
 
 @router.get("/{user_id}", response_model=UserRead)
 def get_user_endpoint(

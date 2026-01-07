@@ -18,11 +18,12 @@ export interface UserCreate {
 }
 
 export const getUsers = async (): Promise<User[]> => {
-  const res = await api.get("/users");
+  // Add the trailing slash '/' to match your FastAPI router
+  const res = await api.get("/users/"); 
   return res.data;
 };
 
 export const createUser = async (data: UserCreate): Promise<User> => {
-  const res = await api.post("/users", data);
+  const res = await api.post("/users/", data);
   return res.data;
 };
